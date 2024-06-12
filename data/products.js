@@ -656,5 +656,37 @@ export const products = [
       "apparel",
       "mens"
     ]
+  },
+  {
+    id: "bc2847e9-5323-403f-b7cf-57fde044a975",
+    image: "images/products/backpack.jpg",
+    name: "Addidas Backpack",
+    rating: {
+      stars: 4.5,
+      count: 5157
+    },
+    priceCents: 5400,
+    keywords: [
+      "sweaters",
+      "hoodies",
+      "apparel",
+      "mens"
+    ]
+  },
+  {
+    id: "bc2847e9-5323-403f-b7cf-57fde041a955",
+    image: "images/products/umbrella.jpg",
+    name: "LEXA Foldable Umbrella",
+    rating: {
+      stars: 5,
+      count: 3147
+    },
+    priceCents: 2400,
+    keywords: [
+      "sweaters",
+      "hoodies",
+      "apparel",
+      "mens"
+    ]
   }
 ];
