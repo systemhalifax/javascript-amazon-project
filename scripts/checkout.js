@@ -1,8 +1,9 @@
-import { cart, removeFromCart } from "../data/cart.js";
+import { cart, removeFromCart, calculateCartQuantity, saveToStorage, matchingItem } from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
 let cartSummaryHTML = '';
+
 
 cart.forEach((cartItem) => {
   const productId = cartItem.productId;
@@ -14,7 +15,6 @@ cart.forEach((cartItem) => {
       matchingProduct = product;
     }
   });
-
 
   cartSummaryHTML += `
   
@@ -36,11 +36,13 @@ cart.forEach((cartItem) => {
         </div>
         <div class="product-quantity">
           <span>
-            Quantity: <span class="quantity-label">${cartItem.quantity}</span>
+            Quantity: <span class="quantity-label js-quantity-label-${matchingProduct.id}">${cartItem.quantity}</span>
           </span>
-          <span class="update-quantity-link link-primary">
+          <span class="update-quantity-link js-update-link js-update-link-${matchingProduct.id} link-primary" data-product-id="${matchingProduct.id}">
             Update
           </span>
+          <input class="quantity-input js-quantity-input-${matchingProduct.id}" type="number">
+          <span class="save-quantity-link js-save-quantity-link js-save-quantity-${matchingProduct.id} link-primary" data-product-id="${matchingProduct.id}">Save</span>
           <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
             Delete
           </span>
@@ -97,6 +99,7 @@ cart.forEach((cartItem) => {
   `;
 });
 
+
 document.querySelector('.js-order-summary')
   .innerHTML = cartSummaryHTML;
 
@@ -110,6 +113,67 @@ document.querySelectorAll('.js-delete-link')
         `.js-cart-item-container-${productId}`
       );
 
-      container.remove(); //remove from the page
+      container.remove(); //remove from the page  
+      calculateCartQuantity(document.querySelector(
+        '.js-checkout-header-middle-section'), 'checkout');
     }); 
   });
+
+calculateCartQuantity(document.querySelector(
+  '.js-checkout-header-middle-section'), 'checkout');
+
+
+document.querySelectorAll('.js-update-link')
+  .forEach((link) => {
+    const productId = link.dataset.productId;
+    link.addEventListener('click', () => { 
+      //set the save link and quantity input display to initial and set the display for the update link to none
+      const saveQuantityLink = document.querySelector(`.js-save-quantity-${productId}`);
+      const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+      const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+      const quantity = quantityLabel.innerHTML
+
+      saveQuantityLink.classList.add('save-quantity-link--modifier');
+      quantityInput.classList.add('quantity-input--modifier');
+      quantityLabel.innerHTML = '';
+      link.classList.add('update-quantity-link--modifier');
+
+      quantityInput.value = quantity;
+    });
+  });
+
+
+document.querySelectorAll('.js-save-quantity-link')
+  .forEach((link) => {
+    const {productId} = link.dataset;
+
+    link.addEventListener('click', () => {
+      //set the update link display to initial and set the display for the save link and quantity input to none and get the input value and 
+      const updateLink = document.querySelector(`.js-update-link-${productId}`);
+      const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+      const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+      const quantity = Number(quantityInput.value);
+
+      updateLink.classList.remove('update-quantity-link--modifier');
+      quantityInput.classList.remove('quantity-input--modifier');
+      link.classList.remove('save-quantity-link--modifier');
+
+      let matchingCartItem = matchingItem(productId);
+
+      if (matchingCartItem) {
+        matchingCartItem.quantity = quantity;
+      }
+
+      quantityLabel.innerHTML = matchingCartItem.quantity;
+
+
+      calculateCartQuantity(document.querySelector(
+        '.js-checkout-header-middle-section'), 'checkout');
+
+      saveToStorage();
+    });
+  });
+
+  
+
+  

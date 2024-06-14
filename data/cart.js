@@ -18,7 +18,7 @@ export let cart =  JSON.parse(localStorage.getItem('cart')) || [{
 //   }];
 // }
 
-function saveToStorage () {
+export function saveToStorage () {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
@@ -51,17 +51,19 @@ function addedToCart (productId) {
 
 
 export function addToCart (productId, quantitySelector) {
-  let matchingItem;
+  let matchingCartItem = matchingItem(productId);
   const quantity = Number(quantitySelector.value);
 
-  cart.forEach((cartItem) => {
-    if (productId === cartItem.productId) {
-      matchingItem = cartItem;
-    }
-  });
+  // console.log(matchingCartItem);
 
-  if (matchingItem) { 
-    matchingItem.quantity += quantity;
+  // cart.forEach((cartItem) => {
+  //   if (productId === cartItem.productId) {
+  //     matchingItem = cartItem;
+  //   }
+  // });
+
+  if (matchingCartItem) { 
+    matchingCartItem.quantity += quantity;
   } else {
     cart.push({
       productId,
@@ -86,4 +88,31 @@ export function removeFromCart (productId) {
   cart = newCart;
 
   saveToStorage();
+}
+
+export function calculateCartQuantity (element, page) {
+  let cartQuantity = 0;
+  const cartQuantityElement = element;
+
+  cart.forEach((cartItem) => {
+    cartQuantity += cartItem.quantity
+  });
+
+  if (page === 'amazon') {
+    cartQuantityElement.innerHTML = cartQuantity;
+  } else if (page === 'checkout') {
+    cartQuantityElement.innerHTML = `${cartQuantity} items`;
+  }
+}
+
+export function matchingItem (productId) {
+  let matchingItem;
+
+  cart.forEach((cartItem) => {
+    if (productId === cartItem.productId) {
+      matchingItem = cartItem;
+    }
+  });
+
+  return matchingItem;
 }
