@@ -216,7 +216,11 @@
   display: none;
 }
 
-.quantity-input--modifier {
+.save-quantity-link {
+  display: none;
+}
+
+/* .quantity-input--modifier {
   display: initial;
 }
 
@@ -224,10 +228,22 @@
   display: none;
 }
 
-.save-quantity-link {
+.save-quantity-link--modifier {
+  display: initial;
+} */
+
+.is-editing-quantity .quantity-input {
+  display: initial;
+}
+
+.is-editing-quantity .save-quantity-link {
+  display: initial;
+}
+
+.is-editing-quantity .quantity-label {
   display: none;
 }
 
-.save-quantity-link--modifier {
-  display: initial;
+.is-editing-quantity .update-quantity-link {
+  display: none;
 }

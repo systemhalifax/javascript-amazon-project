@@ -1,4 +1,4 @@
-import { cart, removeFromCart, calculateCartQuantity, saveToStorage, matchingItem } from "../data/cart.js";
+import { cart, removeFromCart, calculateCartQuantity, updateQuantity} from "../data/cart.js";
 import { products } from "../data/products.js";
 import { formatCurrency } from "./utils/money.js";
 
@@ -42,7 +42,7 @@ cart.forEach((cartItem) => {
             Update
           </span>
           <input class="quantity-input js-quantity-input-${matchingProduct.id}" type="number">
-          <span class="save-quantity-link js-save-quantity-link js-save-quantity-${matchingProduct.id} link-primary" data-product-id="${matchingProduct.id}">Save</span>
+          <span class="save-quantity-link js-save-link js-save-quantity-${matchingProduct.id} link-primary" data-product-id="${matchingProduct.id}">Save</span>
           <span class="delete-quantity-link link-primary js-delete-link" data-product-id="${matchingProduct.id}">
             Delete
           </span>
@@ -122,58 +122,131 @@ document.querySelectorAll('.js-delete-link')
 calculateCartQuantity(document.querySelector(
   '.js-checkout-header-middle-section'), 'checkout');
 
-
 document.querySelectorAll('.js-update-link')
   .forEach((link) => {
-    const productId = link.dataset.productId;
-    link.addEventListener('click', () => { 
-      //set the save link and quantity input display to initial and set the display for the update link to none
-      const saveQuantityLink = document.querySelector(`.js-save-quantity-${productId}`);
-      const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
-      const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
-      const quantity = quantityLabel.innerHTML
+    link.addEventListener('click', () => {
+      const {productId} = link.dataset;
 
-      saveQuantityLink.classList.add('save-quantity-link--modifier');
-      quantityInput.classList.add('quantity-input--modifier');
-      quantityLabel.innerHTML = '';
-      link.classList.add('update-quantity-link--modifier');
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+
+      const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+
+      const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+
+      const quantity = quantityLabel.innerHTML;
+
+      container.classList.add('is-editing-quantity');
 
       quantityInput.value = quantity;
     });
   });
 
 
-document.querySelectorAll('.js-save-quantity-link')
+document.querySelectorAll('.js-save-link')
   .forEach((link) => {
-    const {productId} = link.dataset;
-
     link.addEventListener('click', () => {
-      //set the update link display to initial and set the display for the save link and quantity input to none and get the input value and 
-      const updateLink = document.querySelector(`.js-update-link-${productId}`);
+      const {productId} = link.dataset;
+
+      const container = document.querySelector(`.js-cart-item-container-${productId}`);
+
+      container.classList.remove('is-editing-quantity');
+
       const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+
+      const newQuantity = Number(quantityInput.value);
+
+      if (newQuantity < 0 || newQuantity >= 1000) {
+        alert('Quantity must be at least 0 and less than 1000');
+        return;
+      } else if (!newQuantity) {
+          removeFromCart(productId);
+
+          const container = document.querySelector(
+            `.js-cart-item-container-${productId}`
+          );
+    
+          container.remove(); //remove from the page  
+          calculateCartQuantity(document.querySelector(
+            '.js-checkout-header-middle-section'), 'checkout');
+          return;
+       }
+
+      updateQuantity(productId, newQuantity);
+
       const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
-      const quantity = Number(quantityInput.value);
 
-      updateLink.classList.remove('update-quantity-link--modifier');
-      quantityInput.classList.remove('quantity-input--modifier');
-      link.classList.remove('save-quantity-link--modifier');
-
-      let matchingCartItem = matchingItem(productId);
-
-      if (matchingCartItem) {
-        matchingCartItem.quantity = quantity;
-      }
-
-      quantityLabel.innerHTML = matchingCartItem.quantity;
-
+      quantityLabel.innerHTML = newQuantity;
 
       calculateCartQuantity(document.querySelector(
         '.js-checkout-header-middle-section'), 'checkout');
-
-      saveToStorage();
-    });
+    }); 
   });
 
-  
+  // document.querySelectorAll('.js-update-link')
+  // .forEach((link) => {
+  //   const productId = link.dataset.productId;
+  //   link.addEventListener('click', () => { 
+      //set the save link and quantity input display to initial and set the display for the update link to none
+  //     const saveQuantityLink = document.querySelector(`.js-save-quantity-${productId}`);
+  //     const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+  //     const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+  //     const quantity = quantityLabel.innerHTML
 
+  //     saveQuantityLink.classList.add('save-quantity-link--modifier');
+  //     quantityInput.classList.add('quantity-input--modifier');
+  //     quantityLabel.innerHTML = '';
+  //     link.classList.add('update-quantity-link--modifier');
+
+  //     quantityInput.value = quantity;
+  //   });
+  // });
+
+
+// document.querySelectorAll('.js-save-quantity-link')
+//   .forEach((link) => {
+//     const {productId} = link.dataset;
+
+//     link.addEventListener('click', () => {
+      //set the update link display to initial and set the display for the save link and quantity input to none and get the input value and 
+      // const updateLink = document.querySelector(`.js-update-link-${productId}`);
+      // const quantityInput = document.querySelector(`.js-quantity-input-${productId}`);
+      // const quantityLabel = document.querySelector(`.js-quantity-label-${productId}`);
+      // const quantity = Number(quantityInput.value);
+
+      // if (quantity < 0) {
+      //   alert('Not a valid quantity');
+      //   return;
+      // } else if (!quantity) {
+      //   removeFromCart(productId);
+
+      //   const container = document.querySelector(
+      //     `.js-cart-item-container-${productId}`
+      //   );
   
+      //   container.remove(); //remove from the page  
+  //       calculateCartQuantity(document.querySelector(
+  //         '.js-checkout-header-middle-section'), 'checkout');
+  //       return;
+  //     }
+
+  //     updateLink.classList.remove('update-quantity-link--modifier');
+  //     quantityInput.classList.remove('quantity-input--modifier');
+  //     link.classList.remove('save-quantity-link--modifier');
+
+  //     let matchingCartItem = matchingItem(productId);
+
+  //     if (matchingCartItem) {
+  //       matchingCartItem.quantity = quantity;
+  //     }
+
+  //     quantityLabel.innerHTML = matchingCartItem.quantity;
+
+
+  //     calculateCartQuantity(document.querySelector(
+  //       '.js-checkout-header-middle-section'), 'checkout');
+
+  //     saveToStorage();
+  //   });
+  // });
+
+
