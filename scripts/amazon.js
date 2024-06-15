@@ -1,10 +1,11 @@
-import { cart, addToCart, calculateCartQuantity } from '../data/cart.js';
+import { cart, addToCart } from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
+import renderCartQuantity from './amazon/cartQuantity.js';
 
 let productsHTML = '';
 
-calculateCartQuantity(document.querySelector('.js-cart-quantity'), 'amazon');
+renderCartQuantity();
 
 products.forEach((product) => {
   productsHTML += `
@@ -72,6 +73,6 @@ document.querySelectorAll('.js-add-to-cart')
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
 
       addToCart(productId, quantitySelector);
-      calculateCartQuantity(document.querySelector('.js-cart-quantity'), 'amazon');  
+      renderCartQuantity();  
     });
   });
