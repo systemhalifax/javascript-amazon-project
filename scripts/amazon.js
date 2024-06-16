@@ -71,8 +71,10 @@ document.querySelectorAll('.js-add-to-cart')
        //dataset gives us all the data attributes that are attach to the buttons
       const {productId} = button.dataset;
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
+      const selectorValue = Number(quantitySelector.value);
+      console.log(`click ${selectorValue}`);
 
-      addToCart(productId, quantitySelector);
+      addToCart(productId, selectorValue);
       renderCartQuantity();  
     });
   });
