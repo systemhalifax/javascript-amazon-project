@@ -12,7 +12,7 @@ function renderCheckoutHeader () {
   checkoutHeaderHTML += `
   
   Checkout (<a class="return-to-home-link"
-  href="amazon.html">${cartQuantity}</a>)
+  href="amazon.html">${cartQuantity} items</a>)
 
   `;
 

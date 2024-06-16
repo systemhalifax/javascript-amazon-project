@@ -38,12 +38,10 @@ export function calculateDeliveryDate(deliveryOption) {
   let deliveryDate = dayjs();
 
   while (remainingDays > 0) {
-    deliveryDate = deliveryDate.add(1, 'day');
+    deliveryDate = deliveryDate.add(1, 'day'); //add 1 to deliveryDate
 
     if (!isWeekend(deliveryDate)) {
       remainingDays--;
-      // This is a shortcut for:
-      // remainingDays = remainingDays - 1;
     }
   }
   const dateString = deliveryDate.format(
