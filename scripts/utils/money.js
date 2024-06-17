@@ -1,3 +1,7 @@
 export function formatCurrency(priceCents) {
-  return (Math.round(priceCents) / 100).toFixed(2);
+  const isNegative = priceCents < 0;
+  const absoluteValue = Math.abs(priceCents);
+  const roundedValue = Math.round(absoluteValue);
+  const formattedValue = (roundedValue / 100).toFixed(2);
+  return isNegative ? `-${formattedValue}` : formattedValue;
 }
