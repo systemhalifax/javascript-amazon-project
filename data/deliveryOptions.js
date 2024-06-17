@@ -50,6 +50,18 @@ export function calculateDeliveryDate(deliveryOption) {
   return dateString;
 }
 
+export function deliveryOptionExist(deliveryOptionId) {
+  let result;
+  deliveryOptions.forEach((option) => {
+    if(option.id === deliveryOptionId) {
+      result = true
+    } else {
+      result = false
+    }
+  })
+  return result;
+}
+
 // export function calculateDeliveryDate(deliveryOption) {
 //   const today = dayjs();
 //   const {deliveryDays} = deliveryOption;

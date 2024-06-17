@@ -1,3 +1,5 @@
+import { deliveryOptionExist } from "./deliveryOptions.js";
+
 export let cart; //JSON.parse(localStorage.getItem('cart')); 
 
 // if (!cart) {
@@ -133,6 +135,14 @@ export function updateDeliveryOption (productId, deliveryOptionId) {
       matchingItem = cartItem;
     }
   });
+
+  if(!matchingItem) {
+    console.warn(`No product found in the cart for product ID ${productId}`);
+    return;
+  } else if(!deliveryOptionExist(deliveryOptionId)) {
+    console.warn(`Delivery option does not exist`);
+    return;
+  }
 
   matchingItem.deliveryOptionId = deliveryOptionId;
 
