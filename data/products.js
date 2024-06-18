@@ -7,6 +7,11 @@ export function getProduct(productId) {
     }
   });
 
+  if(!matchingProduct){
+    console.warn('This product does not exist');
+    return;
+  } 
+
   return matchingProduct;
 }
 
