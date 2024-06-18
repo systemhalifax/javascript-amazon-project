@@ -51,12 +51,11 @@ export function calculateDeliveryDate(deliveryOption) {
 }
 
 export function deliveryOptionExist(deliveryOptionId) {
-  let result;
+  let result = false;
   deliveryOptions.forEach((option) => {
     if(option.id === deliveryOptionId) {
-      result = true
-    } else {
-      result = false
+      console.log(`if ${option.id === deliveryOptionId} ${option.id} ${deliveryOptionId}`);
+      result = true;
     }
   })
   return result;

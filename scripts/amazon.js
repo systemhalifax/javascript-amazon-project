@@ -1,4 +1,4 @@
-import { cart, addToCart } from '../data/cart.js';
+import { cart} from '../data/cart.js';
 import { products } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 import renderCartQuantity from './amazon/cartQuantity.js';
@@ -72,9 +72,8 @@ document.querySelectorAll('.js-add-to-cart')
       const {productId} = button.dataset;
       const quantitySelector = document.querySelector(`.js-quantity-selector-${productId}`);
       const selectorValue = Number(quantitySelector.value);
-      console.log(`click ${selectorValue}`);
 
-      addToCart(productId, selectorValue);
+      cart.addToCart(productId, selectorValue);
       renderCartQuantity();  
     });
   });

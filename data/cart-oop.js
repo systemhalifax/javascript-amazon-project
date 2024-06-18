@@ -1,5 +1,5 @@
 import { deliveryOptionExist } from "./deliveryOptions.js";
-import { loadFromStorage } from "./cart.js";
+import { loadFromStorage } from "./cart-oop.js";
 
 //use PascalCase for things that generate objects
 function Cart(localStorageKey) {

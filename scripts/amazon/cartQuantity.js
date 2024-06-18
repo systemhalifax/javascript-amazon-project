@@ -4,7 +4,7 @@ function renderCartQuantity () {
   let cartQuantity = 0;
   let cartQuantityHTML = '';
 
-  cart.forEach((cartItem) => {
+  cart.cartItems.forEach((cartItem) => {
     cartQuantity += cartItem.quantity
   });
 
