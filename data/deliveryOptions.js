@@ -54,7 +54,6 @@ export function deliveryOptionExist(deliveryOptionId) {
   let result = false;
   deliveryOptions.forEach((option) => {
     if(option.id === deliveryOptionId) {
-      console.log(`if ${option.id === deliveryOptionId} ${option.id} ${deliveryOptionId}`);
       result = true;
     }
   })
