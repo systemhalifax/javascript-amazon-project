@@ -137,6 +137,16 @@ export class Cart {
   }
 }
 
+export function loadCart(fun) {
+  const xhr = new XMLHttpRequest();
+
+  xhr.addEventListener('load', () => {
+    console.log(xhr.response);
+    fun(); 
+  });
+  xhr.open('GET', 'https://supersimplebackend.dev/cart');
+  xhr.send(); //asynchronous, it will send the request but it will not wait for response to get back
+}
 
 export const cart = new Cart('cart'); // the value inside this class goes to the constructor's parameter
 // const businessCart = new Cart('cart-business'); //instance of the class Cart

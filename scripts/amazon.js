@@ -3,7 +3,15 @@ import { products, loadProducts } from '../data/products.js';
 import { formatCurrency } from './utils/money.js';
 import renderCartQuantity from './amazon/cartQuantity.js';
 
-loadProducts(renderProductsGrid);
+
+new Promise((resolve) => {
+  loadProducts(() => {
+    resolve('value1');
+  });
+}).then((value) => {
+  console.log(value);
+  renderProductsGrid();
+});
 
 function renderProductsGrid() {
 
