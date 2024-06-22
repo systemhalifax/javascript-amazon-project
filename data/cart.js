@@ -137,6 +137,15 @@ export class Cart {
   }
 }
 
+// export function loadCartFetch() {
+//   const promise = fetch(
+//     'https://supersimplebackend.dev/cart'
+//   ).then((response) => {
+//     return response
+//   })
+//   return promise;
+// }
+
 export function loadCart(fun) {
   const xhr = new XMLHttpRequest();
 
