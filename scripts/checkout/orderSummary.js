@@ -1,6 +1,6 @@
 import { cart } from "../../data/cart.js";
 import { products, getProduct } from "../../data/products.js";
-import { formatCurrency } from "../utils/money.js";
+import formatCurrency from "../utils/money.js";
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDate } from "../../data/deliveryOptions.js";
 import { renderPaymentSummary } from "./paymentSummary.js";
@@ -100,9 +100,25 @@ export function renderOrderSummary () {
     return html;
   }
 
-
-  document.querySelector('.js-order-summary')
+  if (cartSummaryHTML) {
+    document.querySelector('.js-order-summary')
     .innerHTML = cartSummaryHTML;
+  } else {
+    document.querySelector('.js-order-summary')
+    .innerHTML = `
+    
+    <div class="empty-cart" data-testid="empty-cart-message">
+      Your cart is empty.
+    </div>
+    <div>
+      <a class="button-primary view-products-link" href="amazon.html">
+        View products
+      </a>
+    </div>
+
+    
+    `;
+  }
 
   document.querySelectorAll('.js-delete-link')
     .forEach((link) => {

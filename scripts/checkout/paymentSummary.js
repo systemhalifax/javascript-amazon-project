@@ -1,7 +1,7 @@
 import { cart } from "../../data/cart.js";
 import { getProduct } from "../../data/products.js";
 import { getDeliveryOption } from "../../data/deliveryOptions.js";
-import { formatCurrency } from "../utils/money.js";
+import formatCurrency from "../utils/money.js";
 import { addOrder } from "../../data/orders.js";
 
 
@@ -58,14 +58,24 @@ export function renderPaymentSummary () {
     <div class="payment-summary-money js-payment-summary-total">$${formatCurrency(totalCents)}</div>
   </div>
 
-  <button class="place-order-button button-primary js-place-order">
-    Place your order
-  </button>
+  <div class="js-payment-buttons-container payment-buttons-disabled">
+    <button class="place-order-button button-primary js-place-order">
+      Place your order
+    </button>
+  </div>
 
   `;
 
   document.querySelector('.js-payment-summary')
     .innerHTML = paymentSummaryHTML;
+
+  if (cart.cartItems.length === 0) {
+    document.querySelector('.js-payment-buttons-container')
+      .classList.add('false');
+  } else {
+    document.querySelector('.js-payment-buttons-container')
+      .classList.remove('false');
+  }
 
   document.querySelector('.js-place-order')
     .addEventListener('click', async () => {
@@ -85,8 +95,12 @@ export function renderPaymentSummary () {
       } catch (error) {
         console.log('Unexpected error. Try again later.');
       }
+      
+      cart.resetCart();
 
-      window.location.href = 'orders.html'
+      cart.saveToStorage();
+
+      window.location.href = 'orders.html' //after clicking go to the /orders url
     });
 }
 

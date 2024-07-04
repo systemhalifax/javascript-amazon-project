@@ -151,6 +151,28 @@
   margin-right: 15px;
 }
 
+.buy-again-message {
+  display:initial;
+}
+
+.buy-again-success {
+  display: none;
+}
+
+
+.is-buying-again .buy-again-icon {
+  display:none;
+}
+
+.is-buying-again .buy-again-message {
+  display:none;
+}
+
+.is-buying-again .buy-again-success {
+  display:initial;
+}
+
+
 .product-actions {
   align-self: start;
 }
@@ -217,4 +239,9 @@
     width: 100%;
     padding: 12px;
   }
+}
+
+.view-products-link-button {
+  border: 1px solid red;
+  background-color: yellow;
 }

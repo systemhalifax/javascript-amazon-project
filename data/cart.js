@@ -58,6 +58,8 @@ export class Cart {
     } else {
       this.cartItems.push({ productId, quantity, deliveryOptionId });
     }
+    this.addedToCart(productId);
+
     this.saveToStorage();
   }
 
@@ -135,6 +137,21 @@ export class Cart {
   
     this.saveToStorage();
   }
+
+  resetCart() {
+    this.cartItems = [];
+    this.saveToStorage();
+  }
+}
+
+export const cart = new Cart('cart'); // the value inside this class goes to the constructor's parameter
+
+
+export async function loadCartFetch() {
+  const response = await fetch('https://supersimplebackend.dev/cart');
+  const text = await response.text();
+  console.log(text);
+  return text;
 }
 
 // export function loadCartFetch() {
@@ -146,6 +163,8 @@ export class Cart {
 //   return promise;
 // }
 
+
+/*
 export function loadCart(fun) {
   const xhr = new XMLHttpRequest();
 
@@ -156,8 +175,9 @@ export function loadCart(fun) {
   xhr.open('GET', 'https://supersimplebackend.dev/cart');
   xhr.send(); //asynchronous, it will send the request but it will not wait for response to get back
 }
+*/
 
-export const cart = new Cart('cart'); // the value inside this class goes to the constructor's parameter
+
 // const businessCart = new Cart('cart-business'); //instance of the class Cart
 
 

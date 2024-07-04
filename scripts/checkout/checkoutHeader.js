@@ -1,6 +1,5 @@
 import { cart } from "../../data/cart.js";
 
-
 function renderCheckoutHeader () {
   let cartQuantity = 0;
   let checkoutHeaderHTML = '';
@@ -19,5 +18,6 @@ function renderCheckoutHeader () {
   document.querySelector('.js-checkout-header-middle-section')
     .innerHTML = checkoutHeaderHTML;
 }
+
 
 export default renderCheckoutHeader;

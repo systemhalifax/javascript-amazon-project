@@ -200,6 +200,24 @@
   padding-top: 18px;
 }
 
+.payment-buttons-disabled.false { /*modal*/
+  color: rgb(33, 33, 33);
+  display: block;
+  font-family: Roboto, Arial;
+  height: 81px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.payment-buttons-disabled.false { /*modal*/
+  color: rgb(33, 33, 33);
+  display: block;
+  font-family: Roboto, Arial;
+  height: 81px;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
 .place-order-button {
   width: 100%;
   padding-top: 12px;
@@ -246,4 +264,13 @@
 
 .is-editing-quantity .update-quantity-link {
   display: none;
+}
+
+.empty-cart {
+  margin-bottom: 19px;
+}
+
+.view-products-link {
+  padding: 8px 15px;
+  text-decoration: none;
 }
