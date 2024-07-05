@@ -1,7 +1,7 @@
 import { renderOrderSummary } from "./checkout/orderSummary.js";
 import { renderPaymentSummary } from "./checkout/paymentSummary.js";
 import '../data/cart.js'; 
-import { loadProducts, loadProductsFetch } from "../data/products.js";
+import { loadProductsFetch } from "../data/products.js";
 import { loadCartFetch } from "../data/cart.js";
 
 
@@ -59,7 +59,6 @@ Promise.all([
   renderOrderSummary();
   renderPaymentSummary();
 });
-*/
 
 // new Promise((resolve) => {
 //   loadProducts(() => {
@@ -79,3 +78,4 @@ Promise.all([
 //   renderOrderSummary();
 //   renderPaymentSummary();
 // });
+*/

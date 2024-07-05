@@ -32,7 +32,7 @@ export class Product {
     this.image = productDetails.image;
     this.name = productDetails.name;
     this.rating = productDetails.rating;
-    this.priceCents = productDetails.priceCents
+    this.priceCents = productDetails.priceCents;
   }
 
   getStarsUrl() {
@@ -58,11 +58,25 @@ export class Clothing extends Product{
   }
 
   extraInfoHTML() {
+
+    if (this.id === "83d4ca15-0f35-48f5-b7a3-1ea210004f2e") {
+      return `
+      <div class="variation-name">Color</div>
+      <div class="js-variation-options-container variation-options-container">
+        <button class="js-variation-option variation-option is-selected" data-product-id="83d4ca15-0f35-48f5-b7a3-1ea210004f2e">Teal</button>
+        <button class="js-variation-option variation-option" data-product-id="83d4ca15-0f35-48f5-b7a3-1ea210004f2e">Black</button>
+        <button class="js-variation-option variation-option" data-product-id="83d4ca15-0f35-48f5-b7a3-1ea210004f2e">Red</button>
+      </div>
+    `;
+    } else {
+
       return `
       <a href="${this.sizeChartLink}" target="_blank">
-      Size chart
+        Size chart
       </a>
     `;
+    }
+
   }
 }
 
@@ -118,6 +132,7 @@ export function loadProductsFetch() {
 //   console.log('next step');
 // });
 
+/*
 export function loadProducts(fun) {
   const xhr = new XMLHttpRequest();
 
@@ -143,6 +158,7 @@ export function loadProducts(fun) {
   xhr.open('GET', 'https://supersimplebackend.dev/products');
   xhr.send(); //asynchronous, it will send the request but it will not wait for response to get back
 }
+*/
 
 /*
 export const products = [
@@ -859,7 +875,7 @@ export const products = [
 });
 */
 
-
+/*
 // const toaster = new Appliance({
 //   id: "54e0eccd-8f36-462b-b68a-8182611d9add",
 //   image: "images/products/black-2-slot-toaster.jpg",
@@ -910,3 +926,4 @@ export const products = [
 // };
 
 // object3.method();
+*/

@@ -1,13 +1,14 @@
 import {cart} from '../data/cart.js';
-import {products, loadProducts} from '../data/products.js';
+import {products, loadProductsFetch, getProduct} from '../data/products.js';
 import renderCartQuantity from './amazon/cartQuantity.js';
 import productSearch from './amazon/productSearch.js';
 
+// loadProducts(renderProductsGrid);
 
-loadProducts(renderProductsGrid);
-
-function renderProductsGrid() {
+async function renderProductsGrid() {
   let productsHTML = '';
+
+  await loadProductsFetch();
 
   renderCartQuantity();
 
@@ -39,17 +40,11 @@ function renderProductsGrid() {
     });
   }
 
-  if (filteredProducts === undefined || filteredProducts.length == 0) {
-    document.querySelector('.js-products-grid')
-      .innerHTML = '<div class="empty-results-message"> No products matched your search. </div>';
-    return;
-  }
-
   filteredProducts.forEach((product) => {
     productsHTML += `
-      <div class="product-container">
+      <div class="product-container" data-product-id="${product.id}">
         <div class="product-image-container">
-          <img class="product-image"
+          <img class="js-product-image product-image"
             src="${product.image}">
         </div>
 
@@ -101,6 +96,14 @@ function renderProductsGrid() {
     `;
   });
 
+  if (filteredProducts === undefined || filteredProducts.length == 0) {
+    document.querySelector('.js-products-grid')
+      .innerHTML = '<div class="empty-results-message"> No products matched your search. </div>';
+
+    return productSearch();
+
+  }
+
   document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
   /*
@@ -124,10 +127,39 @@ function renderProductsGrid() {
         cart.addToCart(productId, selectorValue);
         renderCartQuantity();
       });
-    });
+  });
+
+  function turnOffPreviousButton () {
+    const previousButton = document.querySelector('.is-selected');
+    previousButton && previousButton.classList.remove('is-selected');
+  }
+  
+  document.querySelectorAll('.js-variation-option').forEach((button) => {
+    button.addEventListener('click', () => {
+      const color = button.innerHTML.toLowerCase();
+      const checkButton = button.classList;
+      const product = getProduct(button.dataset.productId);
+
+      if (!checkButton.contains('is-selected')){
+        turnOffPreviousButton();
+        checkButton.add('is-selected');
+      }
+
+      product.image = `images/products/variations/adults-plain-cotton-tshirt-2-pack-${color}.jpg`
+
+      console.log(product);
+  });
+
+
+  });
+
+
 
   productSearch();
+
 }
+
+renderProductsGrid();
 
 /*
 import { cart} from '../data/cart.js';
